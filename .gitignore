@@ -1,3 +1,11 @@
 # Binaries
-going
-going-mac
+go/going
+go/going-mac
+go-detour/libgo-detour.so
+go-target/go-target
+hooks/target
+
+
+.idea/
+
+ghidra.*
