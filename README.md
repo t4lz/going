@@ -18,3 +18,8 @@ Build the hooking rust lib:
 cd hooks
 cargo +nightly build
 ```
+
+The rust binding for the go-detour lib were created with:
+```
+bindgen libgo-detour.h -o go_detour_ffi.rs
+```
