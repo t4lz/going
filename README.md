@@ -23,3 +23,11 @@ The rust binding for the go-detour lib were created with:
 ```
 bindgen libgo-detour.h -o go_detour_ffi.rs
 ```
+
+Run:
+```
+LD_PRELOAD="hooks/target/debug/libhooks.so" go-target/go-target
+```
+
+Current status:
+Sometimes it doesn't crash.
