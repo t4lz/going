@@ -78,7 +78,7 @@ typedef struct { void *data; GoInt len; GoInt cap; } GoSlice;
 extern "C" {
 #endif
 
-extern void* Initialize(callback c_detour);
+extern GoUintptr Initialize(callback c_detour);
 
 #ifdef __cplusplus
 }

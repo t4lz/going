@@ -1,12 +1,15 @@
 package main
 
+import "C"
 import "fmt"
 
-func hook_me() {
-	fmt.Println("go-target: hook_me")
+//go:noinline
+func HookMe() {
+	fmt.Println("go-target: HookeMe")
 }
 
 func main() {
 	fmt.Println("go-target: main")
-	hook_me()
+	fmt.Println("address of HookMe:", HookMe)
+	HookMe()
 }

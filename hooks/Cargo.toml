@@ -7,6 +7,8 @@ edition = "2021"
 
 [dependencies]
 ctor = "0.1"
+frida-gum = "0.8"
+lazy_static = "1.4"
 #frida-gum = { version = "0.8", features = ["auto-download"] }
 #tokio = { version = "1", features = ["full"] }
 
