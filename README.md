@@ -29,5 +29,16 @@ Run:
 LD_PRELOAD="hooks/target/debug/libhooks.so" go-target/go-target
 ```
 
+Build docker image for testing on apple chips:
+```
+docker build -t goli .
+```
+
+Run docker container:
+```
+docker run -dit --name=goli1 -v=/Users/tal/Documents/projects/going:/root/going goli
+```
+
+
 Current status:
 Sometimes it doesn't crash.
