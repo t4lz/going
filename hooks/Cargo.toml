@@ -7,8 +7,7 @@ edition = "2021"
 
 [dependencies]
 ctor = "0.1"
-frida-gum = "0.8"
-#frida-gum = { version = "0.8", features = ["auto-download"] }
+frida-gum = { git = "https://github.com/t4lz/frida-rust", branch = "linux-arm", features = ["auto-download"] }
 lazy_static = "1.4"
 #tokio = { version = "1", features = ["full"] }
 

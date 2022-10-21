@@ -17,8 +17,3 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN cargo install bindgen-cli
 RUN rustup toolchain install nightly
 
-RUN wget -L "https://github.com/frida/frida/releases/download/15.2.2/frida-gum-devkit-15.2.2-linux-arm64.tar.xz"
-RUN tar -xf frida-gum-devkit-15.2.2-linux-arm64.tar.xz
-RUN mv frida-gum.h /usr/local/include
-RUN mv libfrida-gum.a /usr/local/lib
-
