@@ -26,7 +26,8 @@ bindgen libgo-detour.h -o go_detour_ffi.rs
 
 Run:
 ```
-LD_PRELOAD="hooks/target/debug/libhooks.so" go-target/go-target
+cd hooks
+LD_PRELOAD="target/debug/libhooks.so" ../go-target/go-target
 ```
 
 Build docker image for testing on apple chips:
@@ -36,9 +37,17 @@ docker build -t goli .
 
 Run docker container:
 ```
-docker run -dit --name=goli1 -v=/Users/tal/Documents/projects/going:/root/going goli
+docker run -dit --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --name=goli1 -v=/Users/t4lz/Documents/projects/going:/root/going goli
 ```
 
 
 Current status:
 Sometimes it doesn't crash.
+
+debugging:
+
+```
+lldb ../go-target/go-target
+settings set target.env-vars LD_PRELOAD="target/debug/libhooks.so"
+process launch --stop-at-entry
+```
