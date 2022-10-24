@@ -21,4 +21,7 @@ func main() {
 	fmt.Println("address of HookMeWithArgs:", HookMeWithArgs)
 	res := HookMeWithArgs(1, 2, 3, 4, 5, 6, 7, 8)
 	fmt.Println("res: ", res)
+	if res != 360 {
+		panic(fmt.Sprintf("After running the rust detour the result should have been 360, but it is %d", res))
+	}
 }
