@@ -19,11 +19,6 @@ cd hooks
 cargo +nightly build
 ```
 
-The rust binding for the go-detour lib were created with:
-```
-bindgen libgo-detour.h -o go_detour_ffi.rs
-```
-
 Run:
 ```
 cd hooks
@@ -39,15 +34,16 @@ Run docker container:
 ```
 docker run -dit --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --name=goli1 -v=/Users/t4lz/Documents/projects/going:/root/going goli
 ```
-
-
-Current status:
-Reduced POC working.
+The `--cap-add=SYS_PTRACE --security-opt seccomp=unconfined` part is for lldb.
 
 debugging:
-
 ```
 lldb ../go-target/go-target
 settings set target.env-vars LD_PRELOAD="target/debug/libhooks.so"
 process launch --stop-at-entry
 ```
+
+
+Current status:
+Reduced POC working, also with many arguments and a return value.
+
