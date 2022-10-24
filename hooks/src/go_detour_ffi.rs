@@ -295,13 +295,33 @@ pub type uint_fast64_t = ::std::os::raw::c_ulong;
 pub type intmax_t = __intmax_t;
 pub type uintmax_t = __uintmax_t;
 pub type callback = ::std::option::Option<unsafe extern "C" fn()>;
-pub type callback_with_args =
-    ::std::option::Option<unsafe extern "C" fn(arg1: i64, arg2: i64) -> i64>;
+pub type callback_with_args = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: i64,
+        arg2: i64,
+        arg3: i64,
+        arg4: i64,
+        arg5: i64,
+        arg6: i64,
+        arg7: i64,
+        arg8: i64,
+    ) -> i64,
+>;
 extern "C" {
     pub fn bridge(f: callback);
 }
 extern "C" {
-    pub fn bridge_with_args(f: callback_with_args, arg1: i64, arg2: i64) -> i64;
+    pub fn bridge_with_args(
+        f: callback_with_args,
+        arg1: i64,
+        arg2: i64,
+        arg3: i64,
+        arg4: i64,
+        arg5: i64,
+        arg6: i64,
+        arg7: i64,
+        arg8: i64,
+    ) -> i64;
 }
 pub type GoInt8 = ::std::os::raw::c_schar;
 pub type GoUint8 = ::std::os::raw::c_uchar;

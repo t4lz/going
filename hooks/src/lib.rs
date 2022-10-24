@@ -20,9 +20,9 @@ unsafe extern "C" fn detour() {
     println!("Rust detour!");
 }
 
-unsafe extern "C" fn detour_with_args(arg1: i64, arg2: i64) -> i64 {
+unsafe extern "C" fn detour_with_args(arg1: i64, arg2: i64, arg3: i64, arg4: i64, arg5: i64, arg6: i64, arg7: i64, arg8: i64) -> i64 {
     println!("Rust detour!");
-    return 10 * (arg1 + arg2);
+    return 10 * (arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8);
 }
 
 #[ctor]
