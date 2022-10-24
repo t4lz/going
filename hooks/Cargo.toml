@@ -9,7 +9,9 @@ edition = "2021"
 ctor = "0.1"
 frida-gum = { git = "https://github.com/t4lz/frida-rust", branch = "linux-arm", features = ["auto-download"] }
 lazy_static = "1.4"
-#tokio = { version = "1", features = ["full"] }
+
+[build-dependencies]
+bindgen = "0.61.0"
 
 [lib]
 crate_type = ["cdylib"]
