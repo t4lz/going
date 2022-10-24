@@ -1,0 +1,67 @@
+name: test
+
+on: [push, workflow_dispatch]
+jobs:
+  build-go-detour:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-go@v3
+        with:
+          go-version: "1.19.2"
+      - name: build go detour library
+        run: |
+          cd go-detour
+          go build -buildmode=c-shared -o libgo-detour.so
+      - name: upload go detour lib
+        uses: actions/upload-artifact@v3
+        with:
+          name: go-detour-lib
+          path: go-detour/libgo-detour.so
+          if-no-files-found: error
+      - name: upload go detour header
+        uses: actions/upload-artifact@v3
+        with:
+          name: go-detour-header
+          path: go-detour/libgo-detour.h
+          if-no-files-found: error
+
+  hook:
+    needs: build-go-detour
+    strategy:
+      matrix:
+        go-version: ["1.19.2", "1.18.7", "1.17.3", "1.16.15", "1.15.15", "1.14.15", "1.13.15"]
+      fail-fast: false
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: download go detour lib
+        uses: actions/download-artifact@v3
+        with:
+          name: go-detour-lib
+          path: go-detour
+      - name: download go detour header
+        uses: actions/download-artifact@v3
+        with:
+          name: go-detour-header
+          path: go-detour
+      - name: build rust library
+        run: |
+          cd hooks
+          cargo +nightly build
+      - name: build go target binary
+        run: |
+          cd go-target
+          go build
+      - name: run test
+        run: |
+          cd hooks
+          LD_PRELOAD="target/debug/libhooks.so" ../go-target/go-target
