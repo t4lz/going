@@ -14,7 +14,7 @@ func main() {}
 var global_func_ptr C.callback
 
 func detour() {
-	fmt.Println("go detour")
+	// fmt.Println("go detour")
 	// Call whatever function global_func_ref points to.
 	C.bridge(global_func_ptr)
 }

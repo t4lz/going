@@ -42,7 +42,7 @@ docker run -dit --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --name=go
 
 
 Current status:
-Sometimes it doesn't crash.
+Reduced POC working.
 
 debugging:
 
