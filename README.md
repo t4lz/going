@@ -44,6 +44,6 @@ process launch --stop-at-entry
 ```
 
 
-Current status:
-Reduced POC working, also with many arguments and a return value.
+### Current status:
+Working locally on ubuntu/arm64, crashing on GitHub Actions.
 
