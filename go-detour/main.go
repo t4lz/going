@@ -15,11 +15,13 @@ var global_func_ptr C.callback
 // global pointer to a void function with 2 args returning int64.
 var global_func_ptr_args C.callback_with_args
 
+//go:noinline
 func detour() {
 	// Call whatever function global_func_ref points to.
 	C.bridge(global_func_ptr)
 }
 
+//go:noinline
 func detour_with_args(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 int64) int64 {
 	// Call whatever function global_func_ref points to.
 	return int64(C.bridge_with_args(global_func_ptr_args, C.int64_t(arg1), C.int64_t(arg2), C.int64_t(arg3), C.int64_t(arg4), C.int64_t(arg5), C.int64_t(arg6), C.int64_t(arg7), C.int64_t(arg8)))

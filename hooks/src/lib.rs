@@ -29,25 +29,35 @@ unsafe extern "C" fn detour_with_args(arg1: i64, arg2: i64, arg3: i64, arg4: i64
 fn on_load() {
     println!("Rust lib loaded.");
     let mut interceptor = Interceptor::obtain(&GUM);
+    // for module in Module::enumerate_modules() {
+    //     println!("{}: {:#x}", &module.name, &module.base_address);
+    //     for sym in Module::enumerate_symbols(&module.name) {
+    //         println!("{} - {}: {:#x}", &module.name, sym.name, sym.address)
+    //     }
+    // }
     let hook_target = Module::find_symbol_by_name("", "main.HookMe").unwrap();
-    let go_detour_addrs = unsafe { Initialize(Some(detour), Some(detour_with_args)) };
-    let go_detour_addr= go_detour_addrs.r0;
-    let go_detour_with_args_addr= go_detour_addrs.r1;
-    println!("Go detour addr: {:#x}", go_detour_addr);
+    let go_adrrs_from_go = unsafe { Initialize(Some(detour), Some(detour_with_args)) };
+    let go_detour_addr_by_go = go_adrrs_from_go.r0;
+    let go_detour_args_addr_by_go = go_adrrs_from_go.r1;
+    let go_detour_frida = Module::find_symbol_by_name("libgo-detour.so", "main.detour").unwrap();
+    println!("Go detour addr form Go: {:#x}", go_detour_addr_by_go);
+    println!("Go detour addr from Frida: {:?}", go_detour_frida.0);
     interceptor
         .replace(
             hook_target,
-            NativePointer(go_detour_addr as *mut c_void),
+            go_detour_frida,
             NativePointer(0 as *mut c_void),
         )
         .unwrap();
 
     let hook_target = Module::find_symbol_by_name("", "main.HookMeWithArgs").unwrap();
-    println!("Go detour addr: {:#x}", go_detour_with_args_addr);
+    let go_detour_args_frida = Module::find_symbol_by_name("libgo-detour.so", "main.detour_with_args").unwrap();
+    println!("Go detour (args) addr from Go: {:#x}", go_detour_args_addr_by_go);
+    println!("Go detour (args) addr from Frida: {:?}", go_detour_args_frida.0);
     interceptor
         .replace(
             hook_target,
-            NativePointer(go_detour_with_args_addr as *mut c_void),
+            go_detour_args_frida,
             NativePointer(0 as *mut c_void),
         )
         .unwrap();
