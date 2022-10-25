@@ -45,5 +45,5 @@ process launch --stop-at-entry
 
 
 ### Current status:
-Working locally on ubuntu/arm64, crashing on GitHub Actions.
+Works on ubuntu/arm64, crashes on x86_64.
 
