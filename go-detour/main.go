@@ -30,6 +30,10 @@ func detour_with_args(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 int64) int6
 //export Initialize
 func Initialize(c_detour C.callback, c_detour_with_args C.callback_with_args) (uintptr, uintptr) {
 	fmt.Println("Initialize (Go)")
+	global_func_ptr = c_detour                                         // Make the go detour call the c-ABI detour.
+	global_func_ptr_args = c_detour_with_args                          // Make the go detour call the c-ABI detour.
+	fmt.Println("Call detour directly from Initialize for debugging:") // TODO: DELETE
+	detour()                                                           // TODO: DELETE
 	detourFunc := reflect.ValueOf(detour)
 	detourPtr := detourFunc.Pointer()
 	fmt.Println("Go detour address:\t", detour)
@@ -41,7 +45,5 @@ func Initialize(c_detour C.callback, c_detour_with_args C.callback_with_args) (u
 	fmt.Printf("Go detour address:\t 0x%x\n", detourArgsPtr)
 
 	fmt.Printf("C (Rust) detour: %p\n", c_detour)
-	global_func_ptr = c_detour                // Make the go detour call the c-ABI detour.
-	global_func_ptr_args = c_detour_with_args // Make the go detour call the c-ABI detour.
 	return detourPtr, detourArgsPtr
 }
