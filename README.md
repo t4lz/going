@@ -1,6 +1,13 @@
 # going
 Hook go from rust the easy way.
 
+### Building all componenets:
+```
+./build-all.sh
+```
+
+### Building single components:
+
 Build the go detour lib:
 ```
 cd go-detour
@@ -19,24 +26,25 @@ cd hooks
 cargo +nightly build
 ```
 
-Run:
+### Running Test:
 ```
 cd hooks
 LD_PRELOAD="target/debug/libhooks.so" ../go-target/go-target
 ```
 
-Build docker image for testing on apple chips:
+### Docker Image
+#### Building:
 ```
 docker build -t goli .
 ```
 
-Run docker container:
+#### Running docker container:
 ```
 docker run -dit --cap-add=SYS_PTRACE --security-opt seccomp=unconfined --name=goli1 -v=/Users/t4lz/Documents/projects/going:/root/going goli
 ```
 The `--cap-add=SYS_PTRACE --security-opt seccomp=unconfined` part is for lldb.
 
-debugging:
+### Debugging
 ```
 lldb ../go-target/go-target
 settings set target.env-vars LD_PRELOAD="target/debug/libhooks.so"
