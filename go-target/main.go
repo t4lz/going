@@ -1,27 +1,15 @@
 package main
 
 import "C"
-import "fmt"
-
-//go:noinline
-func HookMe() {
-	fmt.Println("go-target: HookMe")
-}
-
-//go:noinline
-func HookMeWithArgs(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8 int64) int64 {
-	fmt.Println("go-target: HookMeWithArgs")
-	return arg1 + arg2 + arg3 + arg4 + arg5 + arg6 + arg7 + arg8
-}
+import (
+	"fmt"
+	"syscall"
+)
 
 func main() {
 	fmt.Println("go-target: main")
-	fmt.Println("address of HookMe:", HookMe)
-	HookMe()
-	fmt.Println("address of HookMeWithArgs:", HookMeWithArgs)
-	res := HookMeWithArgs(1, 2, 3, 4, 5, 6, 7, 8)
-	fmt.Println("res: ", res)
-	if res != 360 {
-		panic(fmt.Sprintf("After running the rust detour the result should have been 360, but it is %d", res))
+	r1, r2, err := syscall.RawSyscall(0, 1, 2, 3)
+	if r1 != 42 || r2 != 1337 || err != nil {
+		panic("Did not get expected return values from hook.")
 	}
 }
