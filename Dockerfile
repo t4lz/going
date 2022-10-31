@@ -17,3 +17,4 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN cargo install bindgen-cli
 RUN rustup toolchain install nightly
 
+WORKDIR /root/going/going/
