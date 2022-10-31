@@ -1,7 +1,11 @@
 # include <stdint.h>
 
-typedef void (*callback)();
-typedef int64_t (*callback_with_args)(int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t);
+struct raw_syscall_result {
+    uintptr_t res1;
+    uintptr_t res2;
+    uintptr_t errno;
+};
 
-void bridge(callback f); 
-int64_t bridge_with_args(callback_with_args f, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t, int64_t); 
+typedef struct raw_syscall_result (*syscall_callback)(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
+
+struct raw_syscall_result syscall_bridge(syscall_callback, uintptr_t, uintptr_t, uintptr_t, uintptr_t);

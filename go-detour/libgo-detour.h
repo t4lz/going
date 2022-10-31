@@ -78,13 +78,7 @@ typedef struct { void *data; GoInt len; GoInt cap; } GoSlice;
 extern "C" {
 #endif
 
-
-/* Return type for Initialize */
-struct Initialize_return {
-	GoUintptr r0;
-	GoUintptr r1;
-};
-extern struct Initialize_return Initialize(callback c_detour, callback_with_args c_detour_with_args);
+extern GoUintptr Initialize(syscall_callback rustDetour);
 
 #ifdef __cplusplus
 }

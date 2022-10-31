@@ -1,13 +1,7 @@
 # include "bridge.h"
 # include <stdio.h>
 
-void bridge(callback f) {
+struct raw_syscall_result syscall_bridge(syscall_callback f, uintptr_t trap, uintptr_t arg1, uintptr_t arg2, uintptr_t arg3) {
     printf("C.bridge - callback: %p\n", f);
-    (*f)();
-}
-
-
-int64_t bridge_with_args(callback_with_args f, int64_t arg1 , int64_t arg2, int64_t arg3, int64_t arg4, int64_t arg5, int64_t arg6, int64_t arg7, int64_t arg8) {
-    printf("C.bridge - callback: %p\n", f);
-    return (*f)(arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
+    return (*f)(trap, arg1, arg2, arg3);
 }
