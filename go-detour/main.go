@@ -13,10 +13,19 @@ func main() {}
 // global pointer to a C-ABI function with the same signature as RawSyscall.
 var global_func_ptr C.syscall_callback
 
+func detourRoutine(trap, arg1, arg2, arg3 uintptr, uintptrChannel chan uintptr, errnoChannel chan syscall.Errno) {
+	res := C.syscall_bridge(global_func_ptr, C.uintptr_t(trap), C.uintptr_t(arg1), C.uintptr_t(arg2), C.uintptr_t(arg3))
+	uintptrChannel <- uintptr(res.res1)
+	uintptrChannel <- uintptr(res.res2)
+	errnoChannel <- syscall.Errno(res.errno)
+}
+
 //go:noinline
 func syscallDetour(trap, arg1, arg2, arg3 uintptr) (uintptr, uintptr, syscall.Errno) {
-	res := C.syscall_bridge(global_func_ptr, C.uintptr_t(trap), C.uintptr_t(arg1), C.uintptr_t(arg2), C.uintptr_t(arg3))
-	return uintptr(res.res1), uintptr(res.res2), syscall.Errno(res.errno)
+	uintptrChannel := make(chan uintptr)
+	errnoChannel := make(chan syscall.Errno)
+	go detourRoutine(trap, arg1, arg2, arg3, uintptrChannel, errnoChannel)
+	return <-uintptrChannel, <-uintptrChannel, <-errnoChannel
 }
 
 //export Initialize
