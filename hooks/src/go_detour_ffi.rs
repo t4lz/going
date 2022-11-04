@@ -294,35 +294,6 @@ pub type uint_fast32_t = ::std::os::raw::c_ulong;
 pub type uint_fast64_t = ::std::os::raw::c_ulong;
 pub type intmax_t = __intmax_t;
 pub type uintmax_t = __uintmax_t;
-pub type callback = ::std::option::Option<unsafe extern "C" fn()>;
-pub type callback_with_args = ::std::option::Option<
-    unsafe extern "C" fn(
-        arg1: i64,
-        arg2: i64,
-        arg3: i64,
-        arg4: i64,
-        arg5: i64,
-        arg6: i64,
-        arg7: i64,
-        arg8: i64,
-    ) -> i64,
->;
-extern "C" {
-    pub fn bridge(f: callback);
-}
-extern "C" {
-    pub fn bridge_with_args(
-        f: callback_with_args,
-        arg1: i64,
-        arg2: i64,
-        arg3: i64,
-        arg4: i64,
-        arg5: i64,
-        arg6: i64,
-        arg7: i64,
-        arg8: i64,
-    ) -> i64;
-}
 pub type GoInt8 = ::std::os::raw::c_schar;
 pub type GoUint8 = ::std::os::raw::c_uchar;
 pub type GoInt16 = ::std::os::raw::c_short;
@@ -437,30 +408,30 @@ fn bindgen_test_layout_GoSlice() {
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
-pub struct Initialize_return {
+pub struct LoadMePls_return {
     pub r0: GoUintptr,
     pub r1: GoUintptr,
 }
 #[test]
-fn bindgen_test_layout_Initialize_return() {
-    const UNINIT: ::std::mem::MaybeUninit<Initialize_return> = ::std::mem::MaybeUninit::uninit();
+fn bindgen_test_layout_LoadMePls_return() {
+    const UNINIT: ::std::mem::MaybeUninit<LoadMePls_return> = ::std::mem::MaybeUninit::uninit();
     let ptr = UNINIT.as_ptr();
     assert_eq!(
-        ::std::mem::size_of::<Initialize_return>(),
+        ::std::mem::size_of::<LoadMePls_return>(),
         16usize,
-        concat!("Size of: ", stringify!(Initialize_return))
+        concat!("Size of: ", stringify!(LoadMePls_return))
     );
     assert_eq!(
-        ::std::mem::align_of::<Initialize_return>(),
+        ::std::mem::align_of::<LoadMePls_return>(),
         8usize,
-        concat!("Alignment of ", stringify!(Initialize_return))
+        concat!("Alignment of ", stringify!(LoadMePls_return))
     );
     assert_eq!(
         unsafe { ::std::ptr::addr_of!((*ptr).r0) as usize - ptr as usize },
         0usize,
         concat!(
             "Offset of field: ",
-            stringify!(Initialize_return),
+            stringify!(LoadMePls_return),
             "::",
             stringify!(r0)
         )
@@ -470,15 +441,12 @@ fn bindgen_test_layout_Initialize_return() {
         8usize,
         concat!(
             "Offset of field: ",
-            stringify!(Initialize_return),
+            stringify!(LoadMePls_return),
             "::",
             stringify!(r1)
         )
     );
 }
 extern "C" {
-    pub fn Initialize(
-        c_detour: callback,
-        c_detour_with_args: callback_with_args,
-    ) -> Initialize_return;
+    pub fn LoadMePls() -> LoadMePls_return;
 }

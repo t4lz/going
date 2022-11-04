@@ -20,7 +20,8 @@ typedef struct { const char *p; ptrdiff_t n; } _GoString_;
 
 
 #line 3 "main.go"
- #include "bridge.h"
+
+#include "../hooks/hooks.h"
 
 #line 1 "cgo-generated-wrapper"
 
@@ -79,12 +80,14 @@ extern "C" {
 #endif
 
 
-/* Return type for Initialize */
-struct Initialize_return {
+/* Return type for LoadMePls */
+struct LoadMePls_return {
 	GoUintptr r0;
 	GoUintptr r1;
 };
-extern struct Initialize_return Initialize(callback c_detour, callback_with_args c_detour_with_args);
+
+//go:noinline
+extern struct LoadMePls_return LoadMePls();
 
 #ifdef __cplusplus
 }
