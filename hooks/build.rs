@@ -1,6 +1,8 @@
 use bindgen::builder;
 
 fn main() {
+    // The auto-generated bindings make it a bit easier to call the exported
+    // Go function.
     let go_detour_bindings = builder().
         header("../go-detour/libgo-detour.h")
         .blocklist_function("rust_detour.*")

@@ -31,14 +31,11 @@ pub unsafe extern "C" fn rust_detour_with_args(arg1: i64, arg2: i64, arg3: i64, 
 #[ctor]
 fn on_load() {
     println!("Rust lib loaded.");
+    // The go func returns pointers, but they are not guaranteed to be correct pointers to the Go
+    // detours, so we just find the go detours with Frida, and don't use the pointers from Go.
+    // We still need to call `LoadMePls` though, so that the Go detours are loaded.
     let _go_pointers = unsafe { LoadMePls() };
     let mut interceptor = Interceptor::obtain(&GUM);
-    // for module in Module::enumerate_modules() {
-    //     println!("{}: {:#x}", &module.name, &module.base_address);
-    //     for sym in Module::enumerate_symbols(&module.name) {
-    //         println!("{} - {}: {:#x}", &module.name, sym.name, sym.address)
-    //     }
-    // }
     let hook_target = Module::find_symbol_by_name("", "main.HookMe").unwrap();
     let go_detour_frida = Module::find_symbol_by_name("libgo-detour.so", "main.goDetour").unwrap();
     println!("Go detour addr from Frida: {:?}", go_detour_frida.0);

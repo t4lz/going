@@ -1,5 +1,7 @@
 #include <stdint.h>
 
+// This is necessary for the Go detours to be able to call the rust detours.
+
 void rust_detour();
 
 int64_t rust_detour_with_args(int64_t arg1,
